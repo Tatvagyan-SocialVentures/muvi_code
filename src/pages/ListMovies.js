@@ -146,24 +146,24 @@ const ListMovies = () => {
                       {item.key}) <strong>{item.MovieName}</strong>
                     </div>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
-                      <strong>Year:</strong>
-                      {item.Year}
+                      Year:
+                      <strong>{item.Year}</strong>
                     </div>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
-                      <strong>Format:</strong> {item.Format}
+                      Format: <strong>{item.Format}</strong>
                     </div>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
-                      <strong>Size:</strong> {item.Size}
+                      Size: <strong>{item.Size}</strong>
                     </div>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
-                      <strong>File Resolution:</strong> {item.FileResolution}
+                      File Resolution: <strong>{item.FileResolution}</strong>
                     </div>
 
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
-                      <strong>Actual Resolution:</strong> {item.Resolution}
+                      Actual Resolution: <strong>{item.Resolution}</strong>
                     </div>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
-                      <strong>Dimension:</strong> {item.Dimension}
+                      Dimension: <strong>{item.Dimension}</strong>
                     </div>
                   </Card>
                 </Col>
