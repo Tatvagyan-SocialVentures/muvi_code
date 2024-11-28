@@ -1,6 +1,7 @@
 export const getMoviesData = async () => {
   try {
-    const endPoint = "";
+    //const endPoint = "https://raw.githubusercontent.com/nayak001/mymovies/refs/heads/main/all_file_list.json";
+    const endPoint = "https://raw.githubusercontent.com/Tatvagyan-SocialVentures/data/refs/heads/main/all_file_list.json";
 
     const response = await fetch(endPoint);
     if (!response.ok) {
