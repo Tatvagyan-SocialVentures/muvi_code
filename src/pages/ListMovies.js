@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { debounce } from "lodash";
-import { Table, Dropdown, Menu, Input, Grid, Row, Col, Card, Button } from "antd";
+import { Table, Dropdown, Input, Grid, Row, Col, Card, Button } from "antd";
 import { ControlOutlined } from "@ant-design/icons";
 import { getMoviesData, columns } from "../services/service";
 const { useBreakpoint } = Grid;
@@ -38,7 +38,7 @@ const ListMovies = () => {
       }
 
       return {
-        key: index, // Ant Design requires a key for each row
+        key: index + 1, // Ant Design requires a key for each row
         ...item,
         MovieName,
         Year,
@@ -77,11 +77,11 @@ const ListMovies = () => {
   };
 
   const menuItems = [
-    { label: "< 480p", key: "<480p" },
-    { label: "= 480p", key: "480p" },
-    { label: "= 720p", key: "720p" },
-    { label: "= 1080p", key: "1080p" },
-    { label: "> 1080p", key: ">1080p" },
+    { label: <span style={{ fontWeight: "bold" }}>less than 480p</span>, key: "<480p" },
+    { label: <span style={{ fontWeight: "bold" }}>480p</span>, key: "480p" },
+    { label: <span style={{ fontWeight: "bold" }}>720p</span>, key: "720p" },
+    { label: <span style={{ fontWeight: "bold" }}>1080p</span>, key: "1080p" },
+    { label: <span style={{ fontWeight: "bold" }}>more than 1080p</span>, key: ">1080p" },
   ];
 
   const menu = {
@@ -143,7 +143,7 @@ const ListMovies = () => {
                         borderBottom: "1px solid gray",
                       }}
                     >
-                      <strong>{item.MovieName}</strong>
+                      {item.key}) <strong>{item.MovieName}</strong>
                     </div>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
                       <strong>Year:</strong>
