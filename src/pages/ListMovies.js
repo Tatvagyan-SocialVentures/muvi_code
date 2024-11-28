@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { debounce } from "lodash";
-import { Table, Input, Grid, Row, Col, Card } from "antd";
+import { Table, Dropdown, Menu, Input, Grid, Row, Col, Card, Button } from "antd";
+import { ControlOutlined } from "@ant-design/icons";
 import { getMoviesData, columns } from "../services/service";
 const { useBreakpoint } = Grid;
 
@@ -63,14 +64,54 @@ const ListMovies = () => {
     [data]
   );
 
+  const handleFilter = ({ key }) => {
+    const filters = {
+      "<480p": (item) => parseInt(item.FileResolution) < 480,
+      "480p": (item) => item.FileResolution === "480p",
+      "720p": (item) => item.FileResolution === "720p",
+      "1080p": (item) => item.FileResolution === "1080p",
+      ">1080p": (item) => parseInt(item.FileResolution) > 1080,
+    };
+
+    setFilteredData(data.filter(filters[key]));
+  };
+
+  const menuItems = [
+    { label: "< 480p", key: "<480p" },
+    { label: "= 480p", key: "480p" },
+    { label: "= 720p", key: "720p" },
+    { label: "= 1080p", key: "1080p" },
+    { label: "> 1080p", key: ">1080p" },
+  ];
+
+  const menu = {
+    items: menuItems,
+    onClick: handleFilter,
+  };
+
   return (
     <>
+      <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 13, backgroundColor: "#006dff", color: "white" }}>
+        <div>
+          Search: <Input placeholder="Search by Movie Name" value={searchQuery} onChange={search_input_onchange} style={{ marginBottom: "10px", width: "70%" }} />
+        </div>
+        <div>
+          <Dropdown menu={menu}>
+            <Button>
+              <ControlOutlined />
+            </Button>
+          </Dropdown>
+        </div>
+      </div>
+
+      <div style={{ padding: 10 }}>
+        <strong>{filteredData.length} file(s) found</strong>
+      </div>
+
       {screens.md ? (
         // if screen size is md or large
         <div>
           <div style={{ padding: "20px" }}>
-            Search movie: <Input placeholder="Search by Movie Name" value={searchQuery} onChange={search_input_onchange} style={{ marginBottom: "10px", width: "300px" }} />
-            {filteredData.length} file(s) found
             <Table
               columns={columns}
               dataSource={filteredData}
@@ -82,34 +123,48 @@ const ListMovies = () => {
       ) : (
         // if screen size is small
         <div style={{ padding: 20, backgroundColor: "#eeecec" }}>
-          <div>
-            Search movie: <Input placeholder="Search by Movie Name" value={searchQuery} onChange={search_input_onchange} style={{ marginBottom: "10px" }} />
-            {filteredData.length} file(s) found
-          </div>
           <div style={{ height: "70vh", overflowX: "hidden", overflowY: "auto" }}>
             <Row gutter={[16, 16]}>
-              {filteredData.map((item) => (
+              {filteredData.map((item, i) => (
                 <Col span={24} key={item.key}>
-                  <Card title={item.MovieName} bordered={false}>
-                    <p>
-                      <strong>Year:</strong> {item.Year}
-                    </p>
-                    <p>
+                  <Card
+                    //title={item.MovieName}
+                    bordered
+                    style={{
+                      marginBottom: "16px",
+                      border: "1px solid gray",
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#006dff",
+                        color: "white",
+                        padding: "10px",
+                        borderBottom: "1px solid gray",
+                      }}
+                    >
+                      <strong>{item.MovieName}</strong>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
+                      <strong>Year:</strong>
+                      {item.Year}
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
                       <strong>Format:</strong> {item.Format}
-                    </p>
-                    <p>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
                       <strong>Size:</strong> {item.Size}
-                    </p>
-                    <p>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
                       <strong>File Resolution:</strong> {item.FileResolution}
-                    </p>
+                    </div>
 
-                    <p>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
                       <strong>Actual Resolution:</strong> {item.Resolution}
-                    </p>
-                    <p>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
                       <strong>Dimension:</strong> {item.Dimension}
-                    </p>
+                    </div>
                   </Card>
                 </Col>
               ))}

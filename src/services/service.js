@@ -16,11 +16,11 @@ export const getMoviesData = async () => {
 };
 
 export const columns = [
-  //   {
-  //     title: "Sl",
-  //     dataIndex: "key",
-  //     key: "key",
-  //   },
+  {
+    title: "Sl",
+    dataIndex: "key",
+    key: "key",
+  },
   {
     title: "Movie Name",
     dataIndex: "MovieName",
