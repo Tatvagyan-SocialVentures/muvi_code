@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/muvi_code/static/css/main.e6c13ad2.css",
+    "main.js": "/muvi_code/static/js/main.7063a9e0.js",
+    "index.html": "/muvi_code/index.html",
+    "main.e6c13ad2.css.map": "/muvi_code/static/css/main.e6c13ad2.css.map",
+    "main.7063a9e0.js.map": "/muvi_code/static/js/main.7063a9e0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.7063a9e0.js"
+  ]
+}
