@@ -115,8 +115,9 @@ const ListMovies = () => {
             <Table
               columns={columns}
               dataSource={filteredData}
-              pagination={false} // Remove pagination
-              scroll={{ y: 300 }} // Fixed height for the table
+              pagination={false} 
+              scroll={{ y: 300 }} 
+              bordered
             />
           </div>
         </div>
