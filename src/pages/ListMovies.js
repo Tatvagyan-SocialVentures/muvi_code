@@ -72,7 +72,6 @@ const ListMovies = () => {
       "1080p": (item) => item.FileResolution === "1080p",
       ">1080p": (item) => parseInt(item.FileResolution) > 1080,
     };
-
     setFilteredData(data.filter(filters[key]));
   };
 
@@ -108,17 +107,11 @@ const ListMovies = () => {
         <strong>{filteredData.length} file(s) found</strong>
       </div>
 
-      {screens.md ? (
+      {screens.lg ? (
         // if screen size is md or large
         <div>
           <div style={{ padding: "20px" }}>
-            <Table
-              columns={columns}
-              dataSource={filteredData}
-              pagination={false} 
-              scroll={{ y: 300 }} 
-              bordered
-            />
+            <Table columns={columns} dataSource={filteredData} pagination={false} scroll={{ y: 300 }} bordered />
           </div>
         </div>
       ) : (
@@ -146,24 +139,24 @@ const ListMovies = () => {
                     >
                       {item.key}) <strong>{item.MovieName}</strong>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
                       Year:
                       <strong>{item.Year}</strong>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
                       Format: <strong>{item.Format}</strong>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
                       Size: <strong>{item.Size}</strong>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
                       File Resolution: <strong>{item.FileResolution}</strong>
                     </div>
 
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
                       Actual Resolution: <strong>{item.Resolution}</strong>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5 }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
                       Dimension: <strong>{item.Dimension}</strong>
                     </div>
                   </Card>
