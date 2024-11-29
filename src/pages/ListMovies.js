@@ -7,9 +7,10 @@ const { useBreakpoint } = Grid;
 
 const ListMovies = () => {
   const screens = useBreakpoint();
-  const [data, setData] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterString, setFilterString] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -46,7 +47,7 @@ const ListMovies = () => {
         Format,
       };
     });
-    setData(transformedData);
+    setOriginalData(transformedData);
     setFilteredData(transformedData);
   };
 
@@ -58,13 +59,15 @@ const ListMovies = () => {
   const handleSearch = useMemo(
     () =>
       debounce((value) => {
-        const filtered_data = data.filter((item) => item.MovieName.toLowerCase().includes(value.toLowerCase()));
+        const filtered_data = originalData.filter((item) => item.MovieName.toLowerCase().includes(value.toLowerCase()));
         setFilteredData(filtered_data);
+        setFilterString("");
       }, 300), // 300ms delay
-    [data]
+    [originalData]
   );
 
   const handleFilter = ({ key }) => {
+    setFilterString(key);
     const filters = {
       "<480p": (item) => parseInt(item.FileResolution) < 480,
       "480p": (item) => item.FileResolution === "480p",
@@ -72,19 +75,17 @@ const ListMovies = () => {
       "1080p": (item) => item.FileResolution === "1080p",
       ">1080p": (item) => parseInt(item.FileResolution) > 1080,
     };
-    setFilteredData(data.filter(filters[key]));
+    setFilteredData(originalData.filter(filters[key]));
   };
 
-  const menuItems = [
-    { label: <span style={{ fontWeight: "bold" }}>less than 480p</span>, key: "<480p" },
-    { label: <span style={{ fontWeight: "bold" }}>480p</span>, key: "480p" },
-    { label: <span style={{ fontWeight: "bold" }}>720p</span>, key: "720p" },
-    { label: <span style={{ fontWeight: "bold" }}>1080p</span>, key: "1080p" },
-    { label: <span style={{ fontWeight: "bold" }}>more than 1080p</span>, key: ">1080p" },
-  ];
-
   const menu = {
-    items: menuItems,
+    items: [
+      { label: <span style={{ fontWeight: "bold" }}>less than 480p</span>, key: "<480p" },
+      { label: <span style={{ fontWeight: "bold" }}>480p</span>, key: "480p" },
+      { label: <span style={{ fontWeight: "bold" }}>720p</span>, key: "720p" },
+      { label: <span style={{ fontWeight: "bold" }}>1080p</span>, key: "1080p" },
+      { label: <span style={{ fontWeight: "bold" }}>more than 1080p</span>, key: ">1080p" },
+    ],
     onClick: handleFilter,
   };
 
@@ -103,8 +104,10 @@ const ListMovies = () => {
         </div>
       </div>
 
-      <div style={{ padding: 10 }}>
-        <strong>{filteredData.length} file(s) found</strong>
+      <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 10 }}>
+        <strong>
+          {filteredData.length} | {filterString} file(s) found.{" "}
+        </strong>
       </div>
 
       {screens.lg ? (
@@ -139,24 +142,24 @@ const ListMovies = () => {
                     >
                       {item.key}) <strong>{item.MovieName}</strong>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border: "1px solid #e5e5e5" }}>
                       Year:
                       <strong>{item.Year}</strong>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border: "1px solid #e5e5e5" }}>
                       Format: <strong>{item.Format}</strong>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border: "1px solid #e5e5e5" }}>
                       Size: <strong>{item.Size}</strong>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border: "1px solid #e5e5e5" }}>
                       File Resolution: <strong>{item.FileResolution}</strong>
                     </div>
 
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border: "1px solid #e5e5e5" }}>
                       Actual Resolution: <strong>{item.Resolution}</strong>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border:"1px solid #e5e5e5" }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border: "1px solid #e5e5e5" }}>
                       Dimension: <strong>{item.Dimension}</strong>
                     </div>
                   </Card>
