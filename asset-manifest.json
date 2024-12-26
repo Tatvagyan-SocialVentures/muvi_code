@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/muvi_code/static/css/main.a840e913.css",
-    "main.js": "/muvi_code/static/js/main.6c012f98.js",
+    "main.js": "/muvi_code/static/js/main.f1177d0c.js",
     "index.html": "/muvi_code/index.html",
     "main.a840e913.css.map": "/muvi_code/static/css/main.a840e913.css.map",
-    "main.6c012f98.js.map": "/muvi_code/static/js/main.6c012f98.js.map"
+    "main.f1177d0c.js.map": "/muvi_code/static/js/main.f1177d0c.js.map"
   },
   "entrypoints": [
     "static/css/main.a840e913.css",
-    "static/js/main.6c012f98.js"
+    "static/js/main.f1177d0c.js"
   ]
 }
