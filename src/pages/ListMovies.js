@@ -74,17 +74,6 @@ const ListMovies = () => {
     [originalData]
   );
 
-  const menu = {
-    items: [
-      { label: <span style={{ fontWeight: "bold" }}>less than 480p</span>, key: "<480p" },
-      { label: <span style={{ fontWeight: "bold" }}>480p</span>, key: "480p" },
-      { label: <span style={{ fontWeight: "bold" }}>720p</span>, key: "720p" },
-      { label: <span style={{ fontWeight: "bold" }}>1080p</span>, key: "1080p" },
-      { label: <span style={{ fontWeight: "bold" }}>more than 1080p</span>, key: ">1080p" },
-    ],
-    onClick: handleFilter,
-  };
-
   const handleFilter = ({ key }) => {
     setFilterString(key);
     const filters = {
@@ -95,6 +84,17 @@ const ListMovies = () => {
       ">1080p": (item) => parseInt(item.FileResolution) > 1080,
     };
     setFilteredData(originalData.filter(filters[key]));
+  };
+
+  const menu = {
+    items: [
+      { label: <span style={{ fontWeight: "bold" }}>less than 480p</span>, key: "<480p" },
+      { label: <span style={{ fontWeight: "bold" }}>480p</span>, key: "480p" },
+      { label: <span style={{ fontWeight: "bold" }}>720p</span>, key: "720p" },
+      { label: <span style={{ fontWeight: "bold" }}>1080p</span>, key: "1080p" },
+      { label: <span style={{ fontWeight: "bold" }}>more than 1080p</span>, key: ">1080p" },
+    ],
+    onClick: handleFilter,
   };
 
   return (
