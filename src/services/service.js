@@ -62,7 +62,7 @@ export const columns = [
     width: "10%",
   },
   {
-    title: "File Resolution",
+    title: "Mentioned Resolution",
     dataIndex: "FileResolution",
     key: "FileResolution",
     width: "15%",

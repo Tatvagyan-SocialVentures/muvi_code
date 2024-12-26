@@ -18,37 +18,45 @@ const ListMovies = () => {
 
   const fetchData = async () => {
     const movieData = await getMoviesData();
-    const transformedData = movieData.map((item, index) => {
-      let MovieName = "N/A";
-      let Year = "N/A";
-      let FileResolution = "N/A";
-      let Format = "N/A";
-
-      if (item.Type === "FILE" && item.Name) {
-        const nameParts = item.Name.split("-");
-        if (nameParts.length === 3) {
-          MovieName = nameParts[0];
-          Year = nameParts[1];
-          const rawFormat = nameParts[2];
-          if (rawFormat) {
-            const [resolution, format] = rawFormat.split(".");
-            FileResolution = `${resolution}p` || "N/A";
-            Format = format || "N/A";
-          }
-        }
-      }
-
-      return {
-        key: index + 1, // Ant Design requires a key for each row
-        ...item,
-        MovieName,
-        Year,
-        FileResolution,
-        Format,
-      };
-    });
+    const transformedData = await transformData(movieData);
     setOriginalData(transformedData);
     setFilteredData(transformedData);
+  };
+
+  const transformData = async (movieData) => {
+    const transformedData = await Promise.all(
+      movieData.map((item, index) => {
+        let MovieName = "#";
+        let Year = "#";
+        let FileResolution = "#";
+        let Format = "#";
+
+        if (item.Type === "FILE" && item.Name) {
+          const nameParts = item.Name.split("-");
+          if (nameParts.length === 3) {
+            MovieName = nameParts[0];
+            Year = nameParts[1];
+            const rawFormat = nameParts[2];
+            if (rawFormat) {
+              const [resolution, format] = rawFormat.split(".");
+              FileResolution = `${resolution}p` || "#";
+              Format = format || "#";
+            }
+          }
+        }
+
+        return {
+          key: index + 1, // Ant Design requires a key for each row
+          ...item,
+          MovieName,
+          Year,
+          FileResolution,
+          Format,
+        };
+      })
+    );
+
+    return transformedData;
   };
 
   const search_input_onchange = (e) => {
@@ -66,6 +74,17 @@ const ListMovies = () => {
     [originalData]
   );
 
+  const menu = {
+    items: [
+      { label: <span style={{ fontWeight: "bold" }}>less than 480p</span>, key: "<480p" },
+      { label: <span style={{ fontWeight: "bold" }}>480p</span>, key: "480p" },
+      { label: <span style={{ fontWeight: "bold" }}>720p</span>, key: "720p" },
+      { label: <span style={{ fontWeight: "bold" }}>1080p</span>, key: "1080p" },
+      { label: <span style={{ fontWeight: "bold" }}>more than 1080p</span>, key: ">1080p" },
+    ],
+    onClick: handleFilter,
+  };
+
   const handleFilter = ({ key }) => {
     setFilterString(key);
     const filters = {
@@ -76,17 +95,6 @@ const ListMovies = () => {
       ">1080p": (item) => parseInt(item.FileResolution) > 1080,
     };
     setFilteredData(originalData.filter(filters[key]));
-  };
-
-  const menu = {
-    items: [
-      { label: <span style={{ fontWeight: "bold" }}>less than 480p</span>, key: "<480p" },
-      { label: <span style={{ fontWeight: "bold" }}>480p</span>, key: "480p" },
-      { label: <span style={{ fontWeight: "bold" }}>720p</span>, key: "720p" },
-      { label: <span style={{ fontWeight: "bold" }}>1080p</span>, key: "1080p" },
-      { label: <span style={{ fontWeight: "bold" }}>more than 1080p</span>, key: ">1080p" },
-    ],
-    onClick: handleFilter,
   };
 
   return (
@@ -153,7 +161,7 @@ const ListMovies = () => {
                       Size: <strong>{item.Size}</strong>
                     </div>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border: "1px solid #e5e5e5" }}>
-                      File Resolution: <strong>{item.FileResolution}</strong>
+                      Mentioned Resolution: <strong>{item.FileResolution}</strong>
                     </div>
 
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 5, border: "1px solid #e5e5e5" }}>
