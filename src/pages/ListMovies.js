@@ -110,6 +110,9 @@ const ListMovies = () => {
     setFilteredData(movieData);
   };
 
+  const reset = () => {
+    setFilteredData(originalData);
+  };
   const findDuplicates = () => {
     const seen = new Map();
     const duplicates = [];
@@ -204,19 +207,21 @@ const ListMovies = () => {
       no_resolution: (item) => item.mentionedResolution <= 0,
       unequal_resolution: (item) => !item.isResolutionMatched,
     };
-    setFilteredData(originalData.filter(filters[key]));
+    key === "find_duplicate" ? findDuplicates() : key === "reset" ? reset() : setFilteredData(originalData.filter(filters[key]));
   };
 
   const menu = {
     items: [
       { key: "no_resolution", label: <span style={{ fontWeight: "bold" }}>No Resolution</span> },
       { key: "<480", label: <span style={{ fontWeight: "bold" }}>Less than 480p</span> },
-      { key: "480", label: <span style={{ fontWeight: "bold" }}>480p</span> },
-      { key: "720", label: <span style={{ fontWeight: "bold" }}>720p</span> },
-      { key: "1080", label: <span style={{ fontWeight: "bold" }}>1080p</span> },
+      { key: "480", label: <span style={{ fontWeight: "bold" }}>Equal to 480p</span> },
+      { key: "720", label: <span style={{ fontWeight: "bold" }}>Equal to 720p</span> },
+      { key: "1080", label: <span style={{ fontWeight: "bold" }}>Equal to 1080p</span> },
       { key: ">1080", label: <span style={{ fontWeight: "bold" }}>More than 1080p</span> },
       { key: "no_hindi_audio", label: <span style={{ fontWeight: "bold" }}>No Hindi Audio</span> },
       { key: "unequal_resolution", label: <span style={{ fontWeight: "bold" }}>Resolution Not Match</span> },
+      { key: "find_duplicate", label: <span style={{ fontWeight: "bold" }}>Duplicates</span> },
+      { key: "reset", label: <span style={{ fontWeight: "bold" }}>Reset All</span> },
     ],
     onClick: handleFilter,
   };
@@ -226,9 +231,6 @@ const ListMovies = () => {
       <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: 13, backgroundColor: "#006dff", color: "white" }}>
         <div>
           Search: <Input placeholder="Search by Movie Name" value={searchQuery} onChange={search_input_onchange} style={{ marginBottom: "10px", width: "70%" }} />
-        </div>
-        <div>
-          <Button onClick={findDuplicates}>Duplicates</Button>
         </div>
         <div>
           <Dropdown menu={menu}>
