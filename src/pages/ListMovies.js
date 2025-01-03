@@ -131,69 +131,17 @@ const ListMovies = () => {
   const search_input_onchange = (e) => {
     setSearchQuery(e.target.value);
     handleSearch(e.target.value);
-    // handlePhoneticSearch(e.target.value);
   };
 
   const handleSearch = useMemo(
     () =>
       debounce((value) => {
-        const filtered_data = originalData.filter((item) => item.fileName.toLowerCase().includes(value.toLowerCase()));
+        const filtered_data = originalData.filter((item) => item.movieCode.toLowerCase().includes(value.toLowerCase()));
         setFilteredData(filtered_data);
         setFilterString("");
       }, 300), // 300ms delay
     [originalData]
   );
-
-  const handlePhoneticSearch = () => {
-    const soundex = (name) => {
-      const map = {
-        a: "",
-        e: "",
-        i: "",
-        o: "",
-        u: "",
-        y: "",
-        h: "",
-        w: "",
-        b: "1",
-        f: "1",
-        p: "1",
-        v: "1",
-        c: "2",
-        g: "2",
-        j: "2",
-        k: "2",
-        q: "2",
-        s: "2",
-        x: "2",
-        z: "2",
-        d: "3",
-        t: "3",
-        l: "4",
-        m: "5",
-        n: "5",
-        r: "6",
-      };
-      const firstLetter = name[0].toUpperCase();
-      const tail = name
-        .toLowerCase()
-        .split("")
-        .slice(1)
-        .map((char) => map[char] || "")
-        .filter((value, index, self) => value !== self[index - 1]) // Remove duplicates
-        .join("");
-      return (firstLetter + tail + "000").slice(0, 4); // Pad to ensure length 4
-    };
-
-    const targetPhonetic = soundex(searchQuery);
-    console.log("targetPhonetic: ", targetPhonetic);
-    const phoneticMatch = originalData.filter((data) => {
-      const namePhonetic = soundex(data.fileName.split(" ")[0]);
-      console.log("namePhonetic: ", namePhonetic);
-      return namePhonetic === targetPhonetic;
-    });
-    console.log("phoneticMatch: ", phoneticMatch);
-  };
 
   const handleFilter = ({ key }) => {
     setFilterString(key);
